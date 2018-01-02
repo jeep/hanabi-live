@@ -803,6 +803,22 @@ function HanabiUI(lobby, gameID) {
 
         this.add(this.noteGiven);
 
+        this.indicateRect = new Kinetic.Rect({
+            x: 0,
+            y: 0,
+            width: config.width,
+            height: config.height,
+            cornerRadius: 6,
+            strokeWidth: 12,
+            stroke: 'black',
+            fill: 'black',
+            opacity: 0.2,
+            visible: true,
+            listening: false,
+        });
+
+        this.add(this.indicateRect);
+
         // Add a slight pulse to the note marker to demonstrate that it has new info
         this.notePulse = new Kinetic.Tween({
             node: this.noteGiven,
@@ -1083,6 +1099,7 @@ function HanabiUI(lobby, gameID) {
             // Ensure that the learned card data is not overwritten with less recent information
             filterInPlace(ui.learnedCards[this.order].possibleRanks, s => this.possibleRanks.includes(s));
         }
+        if (positive) this.indicateRect.visible(false);
     };
 
     HanabiCard.prototype.hideClues = function hideClues() {
