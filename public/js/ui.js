@@ -330,6 +330,8 @@ function HanabiUI(lobby, gameID) {
             } else {
                 prefix = 'NoPip';
             }
+        } else if (!card.cluedBorder.visible() && suit && !rank) {
+            prefix = 'NoPipFaded';
         }
 
         return `${prefix}-${(suit || SUIT.GRAY).name}-${rank || 6}`;
@@ -749,8 +751,6 @@ function HanabiUI(lobby, gameID) {
         this.barename = undefined;
         this.showOnlyLearned = false;
 
-        this.setBareImage();
-
         this.cluedBorder = new Kinetic.Rect({
             x: 3,
             y: 3,
@@ -764,6 +764,8 @@ function HanabiUI(lobby, gameID) {
         });
 
         this.add(this.cluedBorder);
+
+        this.setBareImage();
 
         this.indicatorArrow = new Kinetic.Text({
             x: config.width * 1.01,
@@ -2523,8 +2525,18 @@ function HanabiUI(lobby, gameID) {
                 //   cards of known rank before suit learned
                 //   cards of unknown rank
                 // Entirely unknown cards (Gray 6) have a custom image defined separately
+                // 'NoPipFaded' faces are used when the suit is known but the card is unclued
+                // They are like the usual faces but faded to make them more distinct from clued cards
                 if (rank > 0 && (rank < 6 || suit !== SUIT.GRAY)) {
                     cardImages[`NoPip-${suit.name}-${rank}`] = cloneCanvas(cvs);
+                    const noPipFadedCvs = cloneCanvas(cvs);
+                    const noPipFadedCvsCtx = noPipFadedCvs.getContext('2d');
+                    backpath(noPipFadedCvsCtx, 4, xrad, yrad);
+                    noPipFadedCvsCtx.fillStyle = 'white';
+                    noPipFadedCvsCtx.globalAlpha = 0.7;
+                    noPipFadedCvsCtx.fill();
+                    noPipFadedCvsCtx.stroke();
+                    cardImages[`NoPipFaded-${suit.name}-${rank}`] = noPipFadedCvs;
                 }
 
                 if (suit !== SUIT.GRAY) {
