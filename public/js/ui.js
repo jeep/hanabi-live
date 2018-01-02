@@ -751,20 +751,6 @@ function HanabiUI(lobby, gameID) {
 
         this.setBareImage();
 
-        this.cluedBorder = new Kinetic.Rect({
-            x: 3,
-            y: 3,
-            width: config.width - 6,
-            height: config.height - 6,
-            cornerRadius: 6,
-            strokeWidth: 16,
-            stroke: '#ffdf00',
-            visible: false,
-            listening: false,
-        });
-
-        this.add(this.cluedBorder);
-
         this.indicatorArrow = new Kinetic.Text({
             x: config.width * 1.01,
             y: config.height * 0.18,
@@ -803,7 +789,7 @@ function HanabiUI(lobby, gameID) {
 
         this.add(this.noteGiven);
 
-        this.indicateRect = new Kinetic.Rect({
+        this.cluedStateFadeOverlay = new Kinetic.Rect({
             x: 0,
             y: 0,
             width: config.width,
@@ -812,12 +798,12 @@ function HanabiUI(lobby, gameID) {
             strokeWidth: 12,
             stroke: 'black',
             fill: 'black',
-            opacity: 0.2,
+            opacity: 0.5,
             visible: true,
             listening: false,
         });
 
-        this.add(this.indicateRect);
+        this.add(this.cluedStateFadeOverlay);
 
         // Add a slight pulse to the note marker to demonstrate that it has new info
         this.notePulse = new Kinetic.Tween({
@@ -1099,11 +1085,11 @@ function HanabiUI(lobby, gameID) {
             // Ensure that the learned card data is not overwritten with less recent information
             filterInPlace(ui.learnedCards[this.order].possibleRanks, s => this.possibleRanks.includes(s));
         }
-        if (positive) this.indicateRect.visible(false);
+        if (positive) this.cluedStateFadeOverlay.visible(false);
     };
 
     HanabiCard.prototype.hideClues = function hideClues() {
-        this.cluedBorder.hide();
+        this.cluedStateFadeOverlay.visible(false);
         this.noteGiven.hide();
     };
 
@@ -4814,7 +4800,7 @@ function HanabiUI(lobby, gameID) {
 
             for (let i = 0; i < data.list.length; i++) {
                 ui.deck[data.list[i]].setIndicator(true);
-                ui.deck[data.list[i]].cluedBorder.show();
+                ui.deck[data.list[i]].cluedStateFadeOverlay.visible(false);
 
                 ui.deck[data.list[i]].applyClue(clue, true);
                 ui.deck[data.list[i]].setBareImage();
