@@ -330,7 +330,7 @@ function HanabiUI(lobby, gameID) {
             } else {
                 prefix = 'NoPip';
             }
-        } else if (!card.cluedBorder.visible() && suit && !rank) {
+        } else if (!card.cluedBorder.visible() && !rank) {
             prefix = 'NoPipFaded';
         }
 
@@ -2527,7 +2527,7 @@ function HanabiUI(lobby, gameID) {
                 // Entirely unknown cards (Gray 6) have a custom image defined separately
                 // 'NoPipFaded' faces are used when the suit is known but the card is unclued
                 // They are like the usual faces but faded to make them more distinct from clued cards
-                if (rank > 0 && (rank < 6 || suit !== SUIT.GRAY)) {
+                if (rank > 0) {
                     cardImages[`NoPip-${suit.name}-${rank}`] = cloneCanvas(cvs);
                     const noPipFadedCvs = cloneCanvas(cvs);
                     const noPipFadedCvsCtx = noPipFadedCvs.getContext('2d');
