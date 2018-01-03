@@ -322,6 +322,7 @@ function HanabiUI(lobby, gameID) {
 
         // Do not select an image with pips while the dynamic suit pips are shown
         if (
+            !suit ||
             !card.suitKnown() ||
             (card.showOnlyLearned && card.possibleSuits.length > 1)
         ) {
