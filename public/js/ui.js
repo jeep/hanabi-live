@@ -1061,12 +1061,6 @@ function HanabiUI(lobby, gameID) {
             const findPipElement = suit => this.suitPips.find(`.${suit.name}`);
             const removed = filterInPlace(this.possibleSuits, suit => suit.clueColors.includes(clueColor) === positive);
             removed.forEach(suit => findPipElement(suit).hide());
-            if (this.possibleSuits.length === 1) {
-                [this.trueSuit] = this.possibleSuits;
-                findPipElement(this.trueSuit).hide();
-                this.suitPips.hide();
-                ui.learnedCards[this.order].suit = this.trueSuit;
-            }
             // Ensure that the learned card data is not overwritten with less recent information
             filterInPlace(ui.learnedCards[this.order].possibleSuits, s => this.possibleSuits.includes(s));
         } else {
@@ -1074,12 +1068,6 @@ function HanabiUI(lobby, gameID) {
             const findPipElement = rank => this.rankPips.find(`.${rank}`);
             const removed = filterInPlace(this.possibleRanks, rank => (rank === clueRank) === positive);
             removed.forEach(rank => findPipElement(rank).hide());
-            if (this.possibleRanks.length === 1) {
-                [this.trueRank] = this.possibleRanks;
-                findPipElement(this.trueRank).hide();
-                this.rankPips.hide();
-                ui.learnedCards[this.order].rank = this.trueRank;
-            }
             // Ensure that the learned card data is not overwritten with less recent information
             filterInPlace(ui.learnedCards[this.order].possibleRanks, s => this.possibleRanks.includes(s));
         }
